@@ -1,61 +1,71 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 
 const TodosContext = createContext();
 
 export const TodosProvider = ({ children }) => {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint saepe, veritatis a dolores qui aut eligendi fugit suscipit vero aspernatur earum alias nostrum! Ullam architecto autem esse magnam laborum possimus.",
-      done: false,
-    },
-    {
-      id: 2,
-      text: "lorem laborum possimus.",
-      done: false,
-    },
-    {
-      id: 3,
-      text: "Lorem vero aspernatur earum alias nostrum! Ullam architecto autem esse magnam laborum possimus.",
-      done: false,
-    },
-    {
-      id: 4,
-      text: "Lorem  laborum possimus.",
-      done: false,
-    },
-    {
-      id: 5,
-      text: "Lorem vero aspernatur earum alias nostrum! Ullam architecto autem esse magnam laborum possimus.",
-      done: false,
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
 
   const [todoToEdit, setTodoToEdit] = useState({
     todo: {},
     edit: false,
   });
 
-  const addTodo = (todo) => {
-    setTodos([...todos, { id: 6, text: todo, done: false }]);
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  //fetch feedback
+  const fetchTodos = async () => {
+    const response = await fetch(
+      `http://localhost:5000/todos?_sort=id&_order=desc`
+    );
+    const data = await response.json();
+    setTodos(data);
+  };
+
+  const addTodo = async (newTodo) => {
+    // setTodos([...todos, { id: 6, text: todo, done: false }]);
+    const response = await fetch("/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTodo),
+    });
+
+    const data = await response.json();
+    setTodos([data, ...todos]);
   };
 
   const toggleStatus = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id
-          ? { id: todo.id, text: todo.text, done: !todo.done }
-          : todo
-      )
-    );
+    let newTodo;
+    todos.forEach((todo) => {
+      if (todo.id === id) {
+        newTodo = todo;
+      }
+    });
+    newTodo.done = !newTodo.done;
+    updateTodo(id, newTodo);
   };
 
-  const deleteTodo = (id) => {
+  const deleteTodo = async (id) => {
+    await fetch(`/todos/${id}`, {
+      method: "DELETE",
+    });
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   //to actually update the todo
-  const updateTodo = (id, updatedTodo) => {
+  const updateTodo = async (id, updatedTodo) => {
+    const response = await fetch(`/todos/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTodo),
+    });
+
+    await response.json();
     setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
   };
 
