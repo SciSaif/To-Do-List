@@ -1,19 +1,34 @@
 import React from "react";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import TodosContext from "../context/TodosContext";
 
 function TodoForm() {
   const [text, setText] = useState("");
   const [message, setMessage] = useState("");
-  const { addTodo } = useContext(TodosContext);
+  const { addTodo, todoToEdit, updateTodo } = useContext(TodosContext);
+
+  const textInput = useRef(null);
+
+  //   useEffect(() => {
+  //     console.log(text);
+  //   }, [text]);
+
   useEffect(() => {
-    console.log(text);
-  }, [text]);
+    if (todoToEdit.edit) {
+      setText(todoToEdit.todo.text);
+      textInput.current.focus();
+    }
+  }, [todoToEdit]);
 
   const handleChange = (e) => {
     let value = e.target.value;
-    console.log(value);
     setText(value);
+    if (value === "saif is the best" || value === "saif is great") {
+      setMessage("The TRUTH Has been spoken!");
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -27,8 +42,16 @@ function TodoForm() {
       }, 3000);
       return;
     } else {
-      addTodo(text);
-      setText("");
+      if (todoToEdit.edit === true) {
+        updateTodo(todoToEdit.todo.id, {
+          ...todoToEdit.todo,
+          text: text,
+          done: false,
+        });
+      } else {
+        addTodo(text);
+        setText("");
+      }
     }
   };
   return (
@@ -44,6 +67,7 @@ function TodoForm() {
             className="w-full pr-16 input input-primary input-bordered"
             value={text}
             onChange={handleChange}
+            ref={textInput}
           />
           <button
             type="submit"
@@ -51,7 +75,15 @@ function TodoForm() {
           >
             Add
           </button>
-          <div className="mt-1 ml-3 text-red-500">{message}</div>
+          <div
+            className={`mt-1 ml-3 ${
+              message.charAt(1) === "h"
+                ? "text-green-300 text-3xl"
+                : "text-pink-300"
+            }`}
+          >
+            {message}
+          </div>
         </div>
       </form>
     </div>

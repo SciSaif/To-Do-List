@@ -4,7 +4,7 @@ import { useContext } from "react";
 import TodosContext from "../context/TodosContext";
 
 function TodoItem({ todo }) {
-  const { toggleStatus, deleteTodo } = useContext(TodosContext);
+  const { toggleStatus, deleteTodo, editTodo } = useContext(TodosContext);
 
   const handleCheck = (e) => {
     toggleStatus(todo.id);
@@ -13,6 +13,11 @@ function TodoItem({ todo }) {
   const handleDelete = (e) => {
     deleteTodo(todo.id);
   };
+
+  const handleEdit = () => {
+    editTodo(todo);
+  };
+
   return (
     <div className="p-2">
       <div className="container flex flex-row justify-between align-middle m-0">
@@ -26,7 +31,10 @@ function TodoItem({ todo }) {
             />
           </div>
           <div className="divider divider-vertical"></div>
-          <div className={`text-display ${todo.done ? "line-through" : ""}`}>
+          <div
+            className={`text-display ${todo.done ? "line-through" : ""}`}
+            onClick={handleEdit}
+          >
             {todo.text}
           </div>
         </div>
