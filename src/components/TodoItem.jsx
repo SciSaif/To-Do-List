@@ -1,29 +1,47 @@
 import React from "react";
 import { FaTrash } from "react-icons/fa";
+import { useContext } from "react";
+import TodosContext from "../context/TodosContext";
 
-function TodoItem() {
+function TodoItem({ todo }) {
+  const { toggleStatus, deleteTodo } = useContext(TodosContext);
+
+  const handleCheck = (e) => {
+    toggleStatus(todo.id);
+  };
+
+  const handleDelete = (e) => {
+    deleteTodo(todo.id);
+  };
   return (
     <div className="p-2">
-      <div className="container flex flex-row align-middle">
-        <div className="flex justify-center items-center">
-          <input type="checkbox" className="checkbox" />
+      <div className="container flex flex-row justify-between align-middle m-0">
+        <div className="flex flex-row p-2">
+          <div className="flex justify-center items-center">
+            <input
+              type="checkbox"
+              className="checkbox"
+              checked={todo.done ? true : false}
+              onChange={handleCheck}
+            />
+          </div>
+          <div className="divider divider-vertical"></div>
+          <div className={`text-display ${todo.done ? "line-through" : ""}`}>
+            {todo.text}
+          </div>
         </div>
-        <div className="divider divider-vertical"></div>
-        <div className="text-display">
-          this is a to do if you can believe it Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Eligendi libero, quia reprehenderit iste
-          similique nihil at a delectus deleniti esse mollitia culpa saepe sequi
-          deserunt repellendus earum. Libero, illum obcaecati?
-        </div>
-        <div className="divider divider-vertical"></div>
-        <div className="flex justify-center items-center">
-          <FaTrash
-            size="25px"
-            className="cursor-pointer hover:text-[#b3a7e7]"
-          />
+        <div className="flex flex-row">
+          <div className="divider divider-vertical"></div>
+          <div className="flex justify-center items-center">
+            <FaTrash
+              size="25px"
+              className="cursor-pointer hover:text-[#b3a7e7]"
+              onClick={handleDelete}
+            />
+          </div>
         </div>
       </div>
-      <div className="divider"></div>
+      <div className="divider m-1"></div>
     </div>
   );
 }
