@@ -6,11 +6,6 @@
       "done": false
     },
     {
-      "id": 2,
-      "text": "lorem laborum possimus.",
-      "done": false
-    },
-    {
       "id": 3,
       "text": "Lorem vero aspernatur earum alias nostrum! Ullam architecto autem esse magnam laborum possimus.",
       "done": false
@@ -34,6 +29,11 @@
       "text": "there is easter egg, type saif is great.",
       "done": false,
       "id": 8
+    },
+    {
+      "text": "hi",
+      "done": false,
+      "id": 9
     }
   ]
 }
