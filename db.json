@@ -16,14 +16,24 @@
       "done": false
     },
     {
-      "id": 4,
-      "text": "Lorem  laborum possimus.",
-      "done": false
+      "text": "Lorem  laborum possimus.s",
+      "done": false,
+      "id": 4
     },
     {
       "id": 5,
       "text": "Lorem vero aspernatur earum alias nostrum! Ullam architecto autem esse magnam laborum possimus.",
       "done": false
+    },
+    {
+      "text": "hello there dude",
+      "done": false,
+      "id": 6
+    },
+    {
+      "text": "there is easter egg, type saif is great.",
+      "done": false,
+      "id": 8
     }
   ]
 }

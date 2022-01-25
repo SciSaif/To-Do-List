@@ -42,16 +42,16 @@ function TodoForm() {
       }, 3000);
       return;
     } else {
+      const newTodo = {
+        text: text,
+        done: false,
+      };
       if (todoToEdit.edit === true) {
-        updateTodo(todoToEdit.todo.id, {
-          ...todoToEdit.todo,
-          text: text,
-          done: false,
-        });
+        updateTodo(todoToEdit.todo.id, newTodo);
       } else {
-        addTodo(text);
-        setText("");
+        addTodo(newTodo);
       }
+      setText("");
     }
   };
   return (
