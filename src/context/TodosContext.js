@@ -16,11 +16,6 @@ export const TodosProvider = ({ children }) => {
     },
     {
       id: 3,
-      text: "There is an easter egg :) type: saif is great",
-      done: false,
-    },
-    {
-      id: 4,
       text: "Lorem  laborum possimus.",
       done: false,
     },
