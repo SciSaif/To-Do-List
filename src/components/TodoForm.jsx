@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect, useContext, useRef } from "react";
 import TodosContext from "../context/TodosContext";
+import { v4 as uuidv4 } from "uuid";
+uuidv4();
 
 function TodoForm() {
   const [text, setText] = useState("");
@@ -32,7 +34,6 @@ function TodoForm() {
   };
 
   const handleSubmit = (e) => {
-    console.log("submit");
     e.preventDefault();
     console.log("submit");
     if (text.trim().length === 0) {
@@ -45,6 +46,7 @@ function TodoForm() {
       const newTodo = {
         text: text,
         done: false,
+        id: uuidv4(),
       };
       if (todoToEdit.edit === true) {
         updateTodo(todoToEdit.todo.id, newTodo);
