@@ -1,6 +1,8 @@
 import React from "react";
 import { useState, useEffect, useContext, useRef } from "react";
 import TodosContext from "../context/TodosContext";
+import { v4 as uuidv4 } from "uuid";
+uuidv4();
 
 function TodoForm() {
   const [text, setText] = useState("");
@@ -32,9 +34,7 @@ function TodoForm() {
   };
 
   const handleSubmit = (e) => {
-    console.log("submit");
     e.preventDefault();
-    console.log("submit");
     if (text.trim().length === 0) {
       setMessage("To-do cannot be empty!");
       setTimeout(() => {
@@ -42,13 +42,19 @@ function TodoForm() {
       }, 3000);
       return;
     } else {
-      const newTodo = {
-        text: text,
-        done: false,
-      };
       if (todoToEdit.edit === true) {
+        const newTodo = {
+          text: text,
+          done: false,
+          id: todoToEdit.todo.id,
+        };
         updateTodo(todoToEdit.todo.id, newTodo);
       } else {
+        const newTodo = {
+          text: text,
+          done: false,
+          id: uuidv4(),
+        };
         addTodo(newTodo);
       }
       setText("");

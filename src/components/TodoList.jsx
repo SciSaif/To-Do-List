@@ -35,12 +35,14 @@ function TodoList() {
         </AnimatePresence>
 
         {completedTodos.length === 0 ? null : (
-          <div className="collapse w-100 border border-base-300 collapse-arrow">
-            <input type="checkbox" />
-            <div className="collapse-title text-xl font-medium">Completed </div>
-            <div className="collapse-content">
-              {completedTodos.map((todo) => (
-                <AnimatePresence>
+          <AnimatePresence>
+            <div className="collapse w-100 border border-base-300 collapse-arrow">
+              <input type="checkbox" />
+              <div className="collapse-title text-xl font-medium">
+                Completed{" "}
+              </div>
+              <div className="collapse-content">
+                {completedTodos.map((todo) => (
                   <motion.div
                     key={todo.id}
                     initial={{ opacity: 0 }}
@@ -49,10 +51,10 @@ function TodoList() {
                   >
                     <TodoItem todo={todo} key={todo.id} />
                   </motion.div>
-                </AnimatePresence>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          </AnimatePresence>
         )}
       </div>
     </>
