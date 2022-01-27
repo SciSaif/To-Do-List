@@ -11,10 +11,6 @@ function TodoForm() {
 
   const textInput = useRef(null);
 
-  //   useEffect(() => {
-  //     console.log(text);
-  //   }, [text]);
-
   useEffect(() => {
     if (todoToEdit.edit) {
       setText(todoToEdit.todo.text);
@@ -25,7 +21,10 @@ function TodoForm() {
   const handleChange = (e) => {
     let value = e.target.value;
     setText(value);
-    if (value === "saif is the best" || value === "saif is great") {
+    if (
+      value.toLowerCase() === "saif is the best" ||
+      value.toLowerCase() === "saif is great"
+    ) {
       setMessage("The TRUTH Has been spoken!");
       setTimeout(() => {
         setMessage("");

@@ -1,30 +1,28 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 
 const TodosContext = createContext();
 
 export const TodosProvider = ({ children }) => {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      text: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint saepe, veritatis a dolores qui aut eligendi fugit suscipit vero aspernatur earum alias nostrum! Ullam architecto autem esse magnam laborum possimus.",
-      done: false,
-    },
-    {
-      id: 2,
-      text: "lorem laborum possimus.",
-      done: false,
-    },
-    {
-      id: 3,
-      text: "Lorem  laborum possimus.",
-      done: false,
-    },
-    {
-      id: 5,
-      text: "Lorem vero aspernatur earum alias nostrum! Ullam architecto autem esse magnam laborum possimus.",
-      done: false,
-    },
-  ]);
+  const [todos, setTodos] = useState(() => {
+    if (
+      localStorage.getItem("todos") !== null &&
+      localStorage.getItem("todos") !== undefined
+    ) {
+      return [...JSON.parse(localStorage.getItem("todos"))];
+    } else
+      return [
+        {
+          id: 1,
+          done: false,
+          text: 'There\'s an easter egg :) type "saif is great"',
+        },
+      ];
+  });
+
+  //local storage
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   const [todoToEdit, setTodoToEdit] = useState({
     todo: {},
