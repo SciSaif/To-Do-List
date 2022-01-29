@@ -18,7 +18,10 @@ export const TodosProvider = ({ children }) => {
       auth.onAuthStateChanged(function (user) {
         if (user) {
           setUser(user);
-        } else setUser(null);
+        } else {
+          setUser(null);
+          setTodos(JSON.parse(localStorage.getItem("todos")));
+        }
       });
     }
 
@@ -27,10 +30,12 @@ export const TodosProvider = ({ children }) => {
     };
   }, [isMounted]);
 
-  // //local storage
-  // useEffect(() => {
-  //   localStorage.setItem("todos", JSON.stringify(todos));
-  // }, [todos]);
+  //local storage
+  useEffect(() => {
+    if (user === null && todos.length !== 0) {
+      localStorage.setItem("todos", JSON.stringify(todos));
+    }
+  }, [todos]);
 
   useEffect(() => {
     const addTodosToDb = async () => {
