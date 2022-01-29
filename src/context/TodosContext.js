@@ -7,7 +7,7 @@ const TodosContext = createContext();
 
 export const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
   const auth = getAuth();
@@ -19,8 +19,11 @@ export const TodosProvider = ({ children }) => {
         if (user) {
           setUser(user);
         } else {
+          setLoading(true);
           setUser(null);
-          setTodos(JSON.parse(localStorage.getItem("todos")));
+          const dataFromLS = JSON.parse(localStorage.getItem("todos"));
+          dataFromLS && setTodos(dataFromLS);
+          setLoading(false);
         }
       });
     }
@@ -32,7 +35,7 @@ export const TodosProvider = ({ children }) => {
 
   //local storage
   useEffect(() => {
-    if (user === null && todos.length !== 0) {
+    if (user === null && todos && todos.length !== 0) {
       localStorage.setItem("todos", JSON.stringify(todos));
     }
   }, [todos]);
@@ -50,13 +53,15 @@ export const TodosProvider = ({ children }) => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
+        setLoading(true);
         const userDataRef = doc(db, "userData", user.uid);
         const userData = (await getDoc(userDataRef)).data();
         setTodos(userData.todos);
-
+        setLoading(false);
         // console.log(userData.todos);
       } catch (error) {
         console.log("ooops", error);
+        setLoading(false);
       }
     };
 
@@ -111,6 +116,8 @@ export const TodosProvider = ({ children }) => {
         editTodo,
         todoToEdit,
         updateTodo,
+        loading,
+        setLoading,
       }}
     >
       {" "}

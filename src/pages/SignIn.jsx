@@ -1,8 +1,8 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
-
+import TodosContext from "../context/TodosContext";
 function SignIn() {
   const [formData, setFormData] = useState({
     email: "",
@@ -10,6 +10,8 @@ function SignIn() {
   });
 
   const { email, password } = formData;
+
+  const { setLoading } = useContext(TodosContext);
 
   const navigate = useNavigate();
 
@@ -24,12 +26,14 @@ function SignIn() {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const auth = getAuth();
       const userCredentials = await signInWithEmailAndPassword(
         auth,
         email,
         password
       );
+      setLoading(false);
 
       if (userCredentials.user) {
         navigate("/");

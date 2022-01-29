@@ -64,7 +64,11 @@ function Header({ text }) {
                 </Link>
               </>
             ) : (
-              <Link to="/" className="pl-3 btn btn-sm btn-ghost">
+              <Link
+                to="/"
+                className="pl-3 btn btn-sm btn-ghost"
+                onClick={onLogout}
+              >
                 Logout
               </Link>
             )}
