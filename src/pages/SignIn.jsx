@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import TodosContext from "../context/TodosContext";
 import { AiOutlineLogin } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import OAuth from "../components/OAuth";
 
 function SignIn() {
   const [formData, setFormData] = useState({
@@ -93,10 +94,11 @@ function SignIn() {
             Sign up
           </Link>
         </p>
-        <div className="flex items-center my-4  w-[200px] justify-around cursor-pointer border border-slate-500/50 py-1 px-3 ">
+        {/* <div className="flex items-center my-4  w-[200px] justify-around cursor-pointer border border-slate-500/50 py-1 px-3 ">
           <FcGoogle size="35px" />
           <p>Sign in with Google</p>
-        </div>
+        </div> */}
+        <OAuth />
       </div>
     </>
   );

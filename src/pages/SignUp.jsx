@@ -4,6 +4,7 @@ import TodosContext from "../context/TodosContext";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FiUser } from "react-icons/fi";
+import OAuth from "../components/OAuth";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -83,10 +84,7 @@ function SignUp() {
             Log in
           </Link>
         </p>
-        <div className="flex items-center my-4  w-[220px] justify-around cursor-pointer border border-slate-500/50 py-1 px-3 ">
-          <FcGoogle size="35px" />
-          <p>Sign up with Google</p>
-        </div>
+        <OAuth />
       </div>
     </>
   );

@@ -19,7 +19,7 @@ const TodosContext = createContext();
 
 export const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
   const navigate = useNavigate();
@@ -72,7 +72,6 @@ export const TodosProvider = ({ children }) => {
         const userData = (await getDoc(userDataRef)).data();
         setTodos(userData.todos);
         setLoading(false);
-        // console.log(userData.todos);
       } catch (error) {
         console.log("ooops", error);
         setLoading(false);
