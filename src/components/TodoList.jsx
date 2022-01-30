@@ -22,7 +22,7 @@ function TodoList() {
   }
   return (
     <>
-      <div className="container rounded-3xl shadow-lg w-100 md-w-75 lg:w-1/2 xl:w-1/3 m-auto">
+      <div className="container rounded-3xl shadow-lg w-100 md-w-75 lg:w-1/2 xl:w-1/2 m-auto">
         <AnimatePresence>
           {notCompletedTodos.length === 0 ? (
             <p className="m-3 p-3 ">Nothing Here</p>
@@ -42,10 +42,10 @@ function TodoList() {
 
         {completedTodos.length === 0 ? null : (
           <AnimatePresence>
-            <div className="collapse w-100 border border-base-300 collapse-arrow">
+            <div className="collapse w-100  border border-base-300 rounded-b-3xl collapse-arrow">
               <input type="checkbox" />
               <div className="collapse-title text-xl font-medium">
-                Completed{" "}
+                Completed {completedTodos.length}
               </div>
               <div className="collapse-content">
                 {completedTodos.map((todo) => (
