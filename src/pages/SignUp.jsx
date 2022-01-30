@@ -1,8 +1,7 @@
 import React from "react";
 import { useState, useContext } from "react";
 import TodosContext from "../context/TodosContext";
-import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router-dom";
 import { FiUser } from "react-icons/fi";
 import OAuth from "../components/OAuth";
 import Spinner from "../components/assets/Spinner";

@@ -1,10 +1,8 @@
 import React from "react";
-import { useState, useEffect, useContext } from "react";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import TodosContext from "../context/TodosContext";
 import { AiOutlineLogin } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
 import OAuth from "../components/OAuth";
 import Spinner from "../components/assets/Spinner";
 
@@ -17,8 +15,6 @@ function SignIn() {
   const { email, password } = formData;
 
   const { signIn, loading } = useContext(TodosContext);
-
-  const navigate = useNavigate();
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -79,10 +75,6 @@ function SignIn() {
             Sign up
           </Link>
         </p>
-        {/* <div className="flex items-center my-4  w-[200px] justify-around cursor-pointer border border-slate-500/50 py-1 px-3 ">
-          <FcGoogle size="35px" />
-          <p>Sign in with Google</p>
-        </div> */}
         <OAuth />
       </div>
       {loading ? (

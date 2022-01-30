@@ -15,6 +15,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const TodosContext = createContext();
 
@@ -74,7 +75,7 @@ export const TodosProvider = ({ children }) => {
         setTodos(userData.todos);
         setLoading(false);
       } catch (error) {
-        console.log("ooops", error);
+        toast.error("Sorry! Failed to fetch todos :(");
         setLoading(false);
       }
     };
@@ -93,8 +94,9 @@ export const TodosProvider = ({ children }) => {
       dataFromLS && setTodos(dataFromLS);
       setLoading(false);
       console.log("logged out");
+      toast.success("Hurray! Logged you out.");
     } catch (error) {
-      console.log("ooop oh no", error);
+      toast.error("Oh no! Something went wrong");
     }
     navigate("/");
   };
@@ -114,7 +116,8 @@ export const TodosProvider = ({ children }) => {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Wrong username or password");
+      setLoading(false);
     }
   };
 
@@ -151,7 +154,16 @@ export const TodosProvider = ({ children }) => {
       setLoading(false);
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.log({ error });
+      if (error.code === "auth/weak-password") {
+        toast.error("Password should be at least 6 characters");
+      } else if (error.code === "auth/email-already-in-use") {
+        toast.error(
+          "An account with this email already exists. Try logging in instead"
+        );
+      }
+
+      setLoading(false);
     }
   };
 

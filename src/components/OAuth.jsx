@@ -1,10 +1,10 @@
 import React from "react";
-import { useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { getDoc, setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
+import { toast } from "react-toastify";
 
 function OAuth() {
   const navigate = useNavigate();
@@ -39,7 +39,15 @@ function OAuth() {
 
       navigate("/");
     } catch (error) {
-      console.log("error in google auth");
+      toast.error("Oh no! Couldn't authenticate with Google :(", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
   return (
