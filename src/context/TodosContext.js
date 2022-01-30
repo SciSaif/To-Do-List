@@ -1,8 +1,19 @@
 import { useState, createContext, useEffect, useRef } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { db } from "../firebase.config";
-import { updateDoc, doc, getDoc } from "firebase/firestore";
-import { useNavigate, useNavigationType } from "react-router-dom";
+import {
+  updateDoc,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const TodosContext = createContext();
 
@@ -11,7 +22,7 @@ export const TodosProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const auth = getAuth();
   const isMounted = useRef(true);
@@ -85,7 +96,42 @@ export const TodosProvider = ({ children }) => {
     } catch (error) {
       console.log("ooop oh no", error);
     }
-    // navigate("/");
+    navigate("/");
+  };
+
+  const signUp = async (email, password, username) => {
+    try {
+      const auth = getAuth();
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const user = userCredentials.user;
+      // console.log("user: ", user);
+      updateProfile(auth.currentUser, {
+        displayName: username,
+      });
+
+      //create a copy of formdata so that we can modify it and put in db
+      const formDataCopy = { email, username };
+      formDataCopy.timestamp = serverTimestamp();
+
+      //adding user to database in collection "users"
+      await setDoc(doc(db, "users", user.uid), formDataCopy);
+
+      const newTodo = {
+        userRef: user.uid,
+        todos: [],
+      };
+
+      //adding newTodo to database
+      await setDoc(doc(db, "userData", user.uid), newTodo);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const [todoToEdit, setTodoToEdit] = useState({
@@ -137,6 +183,7 @@ export const TodosProvider = ({ children }) => {
         loading,
         setLoading,
         logout,
+        signUp,
       }}
     >
       {" "}

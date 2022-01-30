@@ -1,14 +1,7 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
+import TodosContext from "../context/TodosContext";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
-import { setDoc, doc, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase.config";
-import { AiOutlineLogin } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { FiUser } from "react-icons/fi";
 
@@ -20,6 +13,7 @@ function SignUp() {
   });
 
   const { email, password, username } = formData;
+  const { signUp } = useContext(TodosContext);
 
   const navigate = useNavigate();
 
@@ -30,42 +24,9 @@ function SignUp() {
     }));
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      const auth = getAuth();
-      const userCredentials = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      const user = userCredentials.user;
-      console.log("user: ", user);
-      updateProfile(auth.currentUser, {
-        displayName: username,
-      });
-
-      //create a copy of formdata so that we can modify it and put in db
-      const formDataCopy = { ...formData };
-      delete formDataCopy.password;
-      formDataCopy.timestamp = serverTimestamp();
-
-      //adding user to database in collection "users"
-      await setDoc(doc(db, "users", user.uid), formDataCopy);
-
-      const newTodo = {
-        userRef: user.uid,
-        todos: [],
-      };
-
-      //adding newTodo to database
-      await setDoc(doc(db, "userData", user.uid), newTodo);
-      navigate("/");
-    } catch (error) {
-      console.log(error);
-    }
+    signUp(email, password, username);
   };
 
   return (
@@ -81,7 +42,7 @@ function SignUp() {
             type="text"
             name="username"
             placeholder="Choose a username"
-            className="input input-secondary input-bordered"
+            className="input input-secondary input-bordered usernameInput"
             value={username}
             onChange={onChange}
           />
@@ -92,7 +53,7 @@ function SignUp() {
             type="email"
             name="email"
             placeholder="Enter your email"
-            className="input input-secondary input-bordered"
+            className="input input-secondary input-bordered emailInput"
             value={email}
             onChange={onChange}
           />
@@ -104,7 +65,7 @@ function SignUp() {
             type="password"
             name="password"
             placeholder="Enter your password"
-            className="input input-secondary input-bordered"
+            className="input input-secondary input-bordered passwordInput"
             value={password}
             onChange={onChange}
           />

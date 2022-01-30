@@ -1,6 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.emailInput {
+    background: url('./components/assets/personIcon.svg') 2.4% center no-repeat;
+    padding-left: 35px;
+}
+
+.passwordInput {
+    background: url('./components/assets/lockIcon.svg') 2.4% center no-repeat;
+    padding-left: 35px;
+}
+
+.usernameInput {
+    background: url('./components/assets/badgeIcon.svg') 2.4% center no-repeat;
+    padding-left: 35px;
+}
+
 
 /* spinner css */
 

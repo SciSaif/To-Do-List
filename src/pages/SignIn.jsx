@@ -59,7 +59,7 @@ function SignIn() {
             type="text"
             name="email"
             placeholder="Enter your email"
-            className="input input-secondary input-bordered"
+            className="input input-secondary input-bordered emailInput"
             value={email}
             onChange={onChange}
           />
@@ -71,7 +71,7 @@ function SignIn() {
             type="password"
             name="password"
             placeholder="Enter your password"
-            className="input input-secondary input-bordered"
+            className="input input-secondary input-bordered passwordInput"
             value={password}
             onChange={onChange}
           />
@@ -80,7 +80,7 @@ function SignIn() {
             Sign In
           </button>
 
-          <Link to="/" className="mt-2 mx-auto">
+          <Link to="/forgot-password" className="mt-2 mx-auto">
             Forgot Password
           </Link>
         </form>

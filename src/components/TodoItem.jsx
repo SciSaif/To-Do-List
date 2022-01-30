@@ -40,7 +40,7 @@ function TodoItem({ todo }) {
         </div>
         <div className="flex flex-row">
           <div className="divider divider-vertical"></div>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center mr-2">
             <FaTrash
               size="25px"
               className="cursor-pointer hover:text-[#b3a7e7]"

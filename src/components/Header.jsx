@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaRegUserCircle, FaBars, FaAngleRight } from "react-icons/fa";
 import { useState, useEffect, useRef, useContext } from "react";
 import { getAuth } from "firebase/auth";
@@ -29,7 +29,6 @@ function Header({ text }) {
       isMounted.current = false;
     };
   }, [isMounted, auth]);
-  const navigate = useNavigate();
 
   const drawerRef = useRef(null);
 
@@ -50,7 +49,9 @@ function Header({ text }) {
     <nav className="bg-[#1c1b2498] shadow-lg">
       <div className=" mx-2  py-3">
         <div className="flex justify-between items-center ">
-          <div className="ml-2 text-3xl">To Do List</div>
+          <Link to="/" className="ml-2 text-3xl cursor-pointer">
+            To Do List
+          </Link>
           <div className="items-center hidden md:flex">
             {user === null ? (
               <>
