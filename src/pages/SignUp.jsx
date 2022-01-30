@@ -8,6 +8,9 @@ import {
 } from "firebase/auth";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
+import { AiOutlineLogin } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc";
+import { FiUser } from "react-icons/fi";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -67,10 +70,11 @@ function SignUp() {
 
   return (
     <>
-      <main className="container justify-center rounded-3xl shadow-lg w-100 md-w-75 lg:w-1/2 xl:w-1/3 m-auto p-2 mt-10">
-        <p className="mb-2 text-4xl text">Sign Up</p>
-        <form className="form-control" onSubmit={onSubmit}>
-          <label className="label">
+      <main className="container flex flex-col items-center rounded-3xl shadow-lg w-fit min-w-[350px]  m-auto p-10  mt-10 ">
+        <FiUser size="70px" />
+        <p className="my-2 text-4xl text">Sign Up</p>
+        <form className="form-control w-full" onSubmit={onSubmit}>
+          <label className="label mt-3">
             <span className="label-text">Username</span>
           </label>
           <input
@@ -81,25 +85,19 @@ function SignUp() {
             value={username}
             onChange={onChange}
           />
-          <label className="label">
-            <span className="label-text-alt">Please enter data</span>
-          </label>
-          <label className="label">
+          <label className="label mt-3">
             <span className="label-text">Email</span>
           </label>
           <input
-            type="text"
+            type="email"
             name="email"
             placeholder="Enter your email"
             className="input input-secondary input-bordered"
             value={email}
             onChange={onChange}
           />
-          <label className="label">
-            <span className="label-text-alt">Please enter data</span>
-          </label>
 
-          <label className="label">
+          <label className="label mt-2">
             <span className="label-text">Password</span>
           </label>
           <input
@@ -110,18 +108,25 @@ function SignUp() {
             value={password}
             onChange={onChange}
           />
-          <label className="label">
-            <span className="label-text-alt">Please enter data</span>
-          </label>
 
-          <button
-            type="submit"
-            className="btn btn-primary mt-2 w-fit pl-5 pr-5"
-          >
-            Sign Up
+          <button type="submit" className="btn btn-sm btn-primary mt-4 w-full">
+            Sign up
           </button>
         </form>
       </main>
+
+      <div className="container flex flex-col items-center shadow-lg w-full mt-10 p-3">
+        <p>
+          Already have an account?{" "}
+          <Link to="/sign-in" className="underline text-primary">
+            Log in
+          </Link>
+        </p>
+        <div className="flex items-center my-4  w-[220px] justify-around cursor-pointer border border-slate-500/50 py-1 px-3 ">
+          <FcGoogle size="35px" />
+          <p>Sign up with Google</p>
+        </div>
+      </div>
     </>
   );
 }
