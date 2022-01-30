@@ -15,7 +15,7 @@ function SignIn() {
 
   const { email, password } = formData;
 
-  const { setLoading } = useContext(TodosContext);
+  const { signIn } = useContext(TodosContext);
 
   const navigate = useNavigate();
 
@@ -26,25 +26,9 @@ function SignIn() {
     }));
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      setLoading(true);
-      const auth = getAuth();
-      const userCredentials = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      setLoading(false);
-
-      if (userCredentials.user) {
-        navigate("/");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    signIn(email, password);
   };
 
   return (

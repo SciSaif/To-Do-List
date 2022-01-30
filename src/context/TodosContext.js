@@ -3,6 +3,7 @@ import {
   getAuth,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
 import { db } from "../firebase.config";
@@ -98,6 +99,25 @@ export const TodosProvider = ({ children }) => {
     navigate("/");
   };
 
+  const signIn = async (email, password) => {
+    try {
+      setLoading(true);
+      const auth = getAuth();
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      setLoading(false);
+
+      if (userCredentials.user) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const signUp = async (email, password, username) => {
     try {
       const auth = getAuth();
@@ -183,6 +203,7 @@ export const TodosProvider = ({ children }) => {
         setLoading,
         logout,
         signUp,
+        signIn,
       }}
     >
       {" "}
