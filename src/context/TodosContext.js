@@ -120,6 +120,7 @@ export const TodosProvider = ({ children }) => {
 
   const signUp = async (email, password, username) => {
     try {
+      setLoading(true);
       const auth = getAuth();
       const userCredentials = await createUserWithEmailAndPassword(
         auth,
@@ -147,6 +148,7 @@ export const TodosProvider = ({ children }) => {
 
       //adding newTodo to database
       await setDoc(doc(db, "userData", user.uid), newTodo);
+      setLoading(false);
       navigate("/");
     } catch (error) {
       console.log(error);

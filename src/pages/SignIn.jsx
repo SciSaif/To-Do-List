@@ -6,6 +6,7 @@ import TodosContext from "../context/TodosContext";
 import { AiOutlineLogin } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import OAuth from "../components/OAuth";
+import Spinner from "../components/assets/Spinner";
 
 function SignIn() {
   const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ function SignIn() {
 
   const { email, password } = formData;
 
-  const { signIn } = useContext(TodosContext);
+  const { signIn, loading } = useContext(TodosContext);
 
   const navigate = useNavigate();
 
@@ -65,7 +66,7 @@ function SignIn() {
             Sign In
           </button>
 
-          <Link to="/forgot-password" className="mt-2 mx-auto">
+          <Link to="/forgot-password" className="mt-3 mx-auto">
             Forgot Password
           </Link>
         </form>
@@ -84,6 +85,13 @@ function SignIn() {
         </div> */}
         <OAuth />
       </div>
+      {loading ? (
+        <div className="absolute top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center">
+          <Spinner />
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }

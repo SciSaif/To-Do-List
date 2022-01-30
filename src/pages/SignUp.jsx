@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FiUser } from "react-icons/fi";
 import OAuth from "../components/OAuth";
+import Spinner from "../components/assets/Spinner";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -14,9 +15,7 @@ function SignUp() {
   });
 
   const { email, password, username } = formData;
-  const { signUp } = useContext(TodosContext);
-
-  const navigate = useNavigate();
+  const { signUp, loading } = useContext(TodosContext);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -86,6 +85,14 @@ function SignUp() {
         </p>
         <OAuth />
       </div>
+
+      {loading ? (
+        <div className="absolute top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center">
+          <Spinner />
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }
