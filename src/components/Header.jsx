@@ -1,12 +1,15 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegUserCircle, FaBars, FaAngleRight } from "react-icons/fa";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { getAuth } from "firebase/auth";
+import TodosContext from "../context/TodosContext";
 
 function Header({ text }) {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState("");
+
+  const { logout } = useContext(TodosContext);
 
   const isMounted = useRef(true);
 
@@ -28,19 +31,6 @@ function Header({ text }) {
   }, [isMounted, auth]);
   const navigate = useNavigate();
 
-  const onLogout = () => {
-    try {
-      auth.signOut();
-      setUser(null);
-      console.log("logged out");
-
-      drawerRef.current.classList.add("hidden");
-    } catch (error) {
-      console.log("ooop oh no", error);
-    }
-    // navigate("/");
-  };
-
   const drawerRef = useRef(null);
 
   const openDrawer = (e) => {
@@ -49,6 +39,11 @@ function Header({ text }) {
 
   const closeDrawer = (e) => {
     drawerRef.current.classList.add("hidden");
+  };
+
+  const onLogout = () => {
+    closeDrawer();
+    logout();
   };
 
   return (

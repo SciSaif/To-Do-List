@@ -2,6 +2,7 @@ import { useState, createContext, useEffect, useRef } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { db } from "../firebase.config";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
+import { useNavigate, useNavigationType } from "react-router-dom";
 
 const TodosContext = createContext();
 
@@ -9,6 +10,8 @@ export const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
+
+  // const navigate = useNavigate();
 
   const auth = getAuth();
   const isMounted = useRef(true);
@@ -70,6 +73,21 @@ export const TodosProvider = ({ children }) => {
     }
   }, [user]);
 
+  const logout = () => {
+    try {
+      auth.signOut();
+      setUser(null);
+      setLoading(true);
+      const dataFromLS = JSON.parse(localStorage.getItem("todos"));
+      dataFromLS && setTodos(dataFromLS);
+      setLoading(false);
+      console.log("logged out");
+    } catch (error) {
+      console.log("ooop oh no", error);
+    }
+    // navigate("/");
+  };
+
   const [todoToEdit, setTodoToEdit] = useState({
     todo: {},
     edit: false,
@@ -118,6 +136,7 @@ export const TodosProvider = ({ children }) => {
         updateTodo,
         loading,
         setLoading,
+        logout,
       }}
     >
       {" "}
