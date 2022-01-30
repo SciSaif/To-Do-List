@@ -93,8 +93,6 @@ export const TodosProvider = ({ children }) => {
       const dataFromLS = JSON.parse(localStorage.getItem("todos"));
       dataFromLS && setTodos(dataFromLS);
       setLoading(false);
-      console.log("logged out");
-      toast.success("Hurray! Logged you out.");
     } catch (error) {
       toast.error("Oh no! Something went wrong");
     }

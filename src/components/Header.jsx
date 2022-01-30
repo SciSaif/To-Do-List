@@ -4,6 +4,7 @@ import { FaRegUserCircle, FaBars, FaAngleRight } from "react-icons/fa";
 import { useState, useEffect, useRef, useContext } from "react";
 import { getAuth } from "firebase/auth";
 import TodosContext from "../context/TodosContext";
+import About from "./About";
 
 function Header({ text }) {
   const [user, setUser] = useState(null);
@@ -95,6 +96,8 @@ function Header({ text }) {
         </div>
       </div>
 
+      {/* Drawer */}
+
       <div
         className="hidden absolute top-0 right-0 w-full h-full bg-black/50 z-10"
         ref={drawerRef}
@@ -103,7 +106,7 @@ function Header({ text }) {
           className="absolute top-0 left-0 w-1/2 h-full "
           onClick={closeDrawer}
         ></div>
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-[#1c1b2498]/100 z-10 p-2">
+        <div className="absolute top-0 right-0 w-1/2 xl:w-1/3 h-full bg-[#1c1b2498]/100 z-10 p-2">
           <div
             className="mt-2 ml-2 rounded-full bg-black/25 w-fit p-2 cursor-pointer"
             onClick={closeDrawer}
@@ -148,6 +151,14 @@ function Header({ text }) {
               </div>
             )}
           </div>
+
+          <Link
+            to="/about"
+            className="absolute bottom-2 text-center w-full btn btn-ghost"
+            onClick={closeDrawer}
+          >
+            About
+          </Link>
         </div>
       </div>
     </nav>

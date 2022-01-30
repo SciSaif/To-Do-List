@@ -1,6 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.aboutCard {
+    background: url('./components/assets/scattered-forcefields.svg');
+}
+
 .emailInput {
     background: url('./components/assets/personIcon.svg') 2.4% center no-repeat;
     padding-left: 35px;
