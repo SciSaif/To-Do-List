@@ -23,6 +23,7 @@ export const TodosProvider = ({ children }) => {
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
+  const [addedTodb, setAddedTodb] = useState(false);
 
   const navigate = useNavigate();
 
@@ -54,7 +55,7 @@ export const TodosProvider = ({ children }) => {
     if (user === null && todos && todos.length !== 0) {
       localStorage.setItem("todos", JSON.stringify(todos));
     }
-  }, [todos]);
+  }, [todos, user]);
 
   useEffect(() => {
     const addTodosToDb = async () => {
@@ -69,21 +70,34 @@ export const TodosProvider = ({ children }) => {
   useEffect(() => {
     const fetchTodos = async () => {
       try {
+        console.log("insider fetch todos ");
+
         setLoading(true);
+        // console.log(user);
         const userDataRef = doc(db, "userData", user.uid);
-        const userData = (await getDoc(userDataRef)).data();
+        // console.log(userDataRef);
+        const fetchedDoc = await getDoc(userDataRef);
+        // console.log(fetchedDoc);
+        const userData = fetchedDoc.data();
+        if (userData === undefined) {
+          setLoading(false);
+          return;
+        }
+        // console.log(userData);
         setTodos(userData.todos);
         setLoading(false);
       } catch (error) {
+        // console.log(error);
         toast.error("Sorry! Failed to fetch todos :(");
         setLoading(false);
       }
     };
 
     if (user) {
+      console.log("reached fetch todos effect");
       fetchTodos();
     }
-  }, [user]);
+  }, [user, addedTodb]);
 
   const logout = () => {
     try {
@@ -102,6 +116,8 @@ export const TodosProvider = ({ children }) => {
   const signIn = async (email, password) => {
     try {
       setLoading(true);
+      setAddedTodb(false);
+
       const auth = getAuth();
       const userCredentials = await signInWithEmailAndPassword(
         auth,
@@ -109,6 +125,7 @@ export const TodosProvider = ({ children }) => {
         password
       );
       setLoading(false);
+      setAddedTodb(true);
 
       if (userCredentials.user) {
         navigate("/");
@@ -122,6 +139,8 @@ export const TodosProvider = ({ children }) => {
   const signUp = async (email, password, username) => {
     try {
       setLoading(true);
+      setAddedTodb(false);
+
       const auth = getAuth();
       const userCredentials = await createUserWithEmailAndPassword(
         auth,
@@ -150,6 +169,7 @@ export const TodosProvider = ({ children }) => {
       //adding newTodo to database
       await setDoc(doc(db, "userData", user.uid), newTodo);
       setLoading(false);
+      setAddedTodb(true);
       navigate("/");
     } catch (error) {
       console.log({ error });
@@ -216,6 +236,7 @@ export const TodosProvider = ({ children }) => {
         logout,
         signUp,
         signIn,
+        setAddedTodb,
       }}
     >
       {" "}

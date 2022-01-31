@@ -5,13 +5,19 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { getDoc, setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase.config";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import TodosContext from "../context/TodosContext";
 
 function OAuth() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { setAddedTodb } = useContext(TodosContext);
+
   const onGoogleClick = async () => {
     try {
+      setAddedTodb(false);
+
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
@@ -35,10 +41,13 @@ function OAuth() {
 
         //adding newTodo to database
         await setDoc(doc(db, "userData", user.uid), newTodo);
+
+        setAddedTodb(true);
       }
 
       navigate("/");
     } catch (error) {
+      console.log(error);
       toast.error("Oh no! Couldn't authenticate with Google :(", {
         position: "bottom-right",
         autoClose: 5000,
